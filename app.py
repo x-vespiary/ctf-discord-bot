@@ -1,3 +1,4 @@
+#!/usr/bin/python3 -u
 import discord
 import os
 

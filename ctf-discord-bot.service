@@ -1,0 +1,10 @@
+[Unit]
+Description = ctf-discord-bot
+
+[Service]
+ExecStart = /root/ctf-discord-bot/app.py
+Restart = always
+Type = simple
+
+[Install]
+WantedBy = multi-user.target
