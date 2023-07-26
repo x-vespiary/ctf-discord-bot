@@ -7,8 +7,8 @@ import discord
 from discord import Member, Message, Reaction, TextChannel, User
 
 TOKEN = os.environ["DISCORD_TOKEN"]
-GENERAL_CHANNEL_NAME = os.environ.get("DISCORD_GENERAL_CHANNEL_NAME", "general")
-LOG_FILE_PATH = os.environ.get("DISCORD_LOG_FILE_PATH", Path(__file__).resolve().parent / "discord.log")
+GENERAL_CHANNEL_NAME = os.getenv("DISCORD_GENERAL_CHANNEL_NAME", "general")
+LOG_FILE_PATH = os.getenv("DISCORD_LOG_FILE_PATH", Path(__file__).resolve().parent / "discord.log")
 
 
 class MyClient(discord.Client):
