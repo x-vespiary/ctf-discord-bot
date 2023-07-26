@@ -55,7 +55,7 @@ class MyClient(discord.Client):
                     continue
                 await message.channel.set_permissions(member, overwrite=None)
 
-            general_channel = discord.utils.get(message.guild.channels, name=GENERAL_CHANNEL_NAME)
+            general_channel = discord.utils.get(message.guild.text_channels, name=GENERAL_CHANNEL_NAME)
             if type(general_channel) != TextChannel:
                 return
             rsvp_message = await general_channel.send(rsvp)
@@ -69,7 +69,7 @@ class MyClient(discord.Client):
         elif message.content.startswith("-join"):
             if len(commands) != 2:
                 return
-            channel = discord.utils.get(message.guild.channels, name=commands[1])
+            channel = discord.utils.get(message.guild.text_channels, name=commands[1])
             if type(channel) != TextChannel:
                 return
             await channel.set_permissions(message.author, read_messages=True)
