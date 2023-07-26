@@ -1,12 +1,12 @@
 #!/usr/bin/python3 -u
-import discord
+import logging
 import os
 
+import discord
+
 TOKEN = os.environ["TOKEN"]
-
-
-def sanitize_ctf_name(ctf_name):
-    return ctf_name
+GENERAL_CHANNEL_NAME = "general"
+LOG_FILE_NAME = "discord.log"
 
 
 class MyClient(discord.Client):
@@ -14,7 +14,7 @@ class MyClient(discord.Client):
         self.cfp_message_id_to_ctf_channel_id = {}
 
     async def on_ready(self):
-        print('Logged on as', self.user)
+        print("Logged on as", self.user)
 
     async def on_message(self, message):
         # don't respond to ourselves
@@ -43,7 +43,7 @@ class MyClient(discord.Client):
                     continue
                 await message.channel.set_permissions(member, overwrite=None)
 
-            general_channel = discord.utils.get(message.guild.channels, name="一般")
+            general_channel = discord.utils.get(message.guild.channels, name=GENERAL_CHANNEL_NAME)
             cfp_message = await general_channel.send(cfp)
             self.cfp_message_id_to_ctf_channel_id[cfp_message.id] = channel_id
             await cfp_message.add_reaction("👍")
@@ -62,10 +62,12 @@ class MyClient(discord.Client):
             await message.channel.set_permissions(message.author, overwrite=None)
 
         elif message.content.startswith("-help"):
-            await message.channel.send("""```-create [<ctf name>]
+            await message.channel.send(
+                """```-create [<ctf name>]
 -over
 -join <ctf channel>
--exit```""")
+-exit```"""
+            )
 
     async def on_reaction_add(self, reaction, user):
         if reaction.message.author != self.user:
@@ -78,10 +80,16 @@ class MyClient(discord.Client):
         await ctf_channel.set_permissions(user, read_messages=True)
 
 
-intents = discord.Intents.default()
-intents.message_content = True
-intents.members = True
-# intents.reactions = True
-client = MyClient(intents=intents)
-client.init()
-client.run(TOKEN)
+def main():
+    handler = logging.FileHandler(filename=LOG_FILE_NAME, encoding="utf-8", mode="a")
+    intents = discord.Intents.default()
+    intents.message_content = True
+    intents.members = True
+    # intents.reactions = True
+    client = MyClient(intents=intents)
+    client.init()
+    client.run(TOKEN, log_handler=handler)
+
+
+if __name__ == "__main__":
+    main()
