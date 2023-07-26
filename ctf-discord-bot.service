@@ -2,9 +2,10 @@
 Description = ctf-discord-bot
 
 [Service]
-ExecStart = /root/ctf-discord-bot/app.py
+ExecStart = <YOUR_HOME_DIR_PATH>/ctf-discord-bot/app.py
 Restart = always
 Type = simple
+Environment = "DISCORD_TOKEN=<YOUR_TOKEN_HERE>"
 
 [Install]
 WantedBy = multi-user.target
