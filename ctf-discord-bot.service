@@ -2,9 +2,10 @@
 Description = ctf-discord-bot
 
 [Service]
-ExecStart = <YOUR_HOME_DIR_PATH>/ctf-discord-bot/app.py
-Restart = always
 Type = simple
+WorkingDirectory=<YOUR_HOME_DIR_PATH>/ctf-discord-bot
+ExecStart = <YOUR_HOME_DIR_PATH>/.local/bin/uv run main.py
+Restart = always
 Environment = "DISCORD_TOKEN=<YOUR_TOKEN_HERE>"
 
 [Install]
